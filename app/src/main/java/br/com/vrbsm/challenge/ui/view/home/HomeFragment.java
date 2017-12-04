@@ -37,10 +37,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by vmascare on 29/11/17.
- */
-
 public class HomeFragment extends AbstractFragment implements MovieViewPagerAdapter.OnPageSelectedListener {
 
     @BindView(R.id.movie_list_main) ListView listView;

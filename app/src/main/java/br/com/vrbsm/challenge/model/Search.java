@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by vrbsm on 03/12/17.
- */
-
 public class Search {
 
     @SerializedName("Search")

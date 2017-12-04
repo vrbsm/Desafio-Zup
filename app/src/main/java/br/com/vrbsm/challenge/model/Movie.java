@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by vmascare on 30/11/17.
- */
-
 public class Movie extends AbstractModel {
 
 

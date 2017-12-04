@@ -10,10 +10,6 @@ import br.com.vrbsm.challenge.util.controlfrags.ControlFrags;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by vmascare on 01/12/17.
- */
-
 public class DescriptionActivity extends AbstractActivity{
     public static final int CONTAINER = R.id.fr_container;
     @BindView(R.id.toolbar_main)

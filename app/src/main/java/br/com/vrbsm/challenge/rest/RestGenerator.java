@@ -10,7 +10,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class RestGenerator {
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

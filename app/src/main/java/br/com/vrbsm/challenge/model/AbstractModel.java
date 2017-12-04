@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-/**
- * Created by vmascare on 30/11/17.
- */
-
 public class AbstractModel implements Serializable {
 
     @SerializedName("imdbID")

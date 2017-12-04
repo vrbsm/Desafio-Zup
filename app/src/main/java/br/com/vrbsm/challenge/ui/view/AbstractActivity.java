@@ -16,10 +16,6 @@ import br.com.vrbsm.challenge.ui.listener.OnDialogListener;
 import br.com.vrbsm.challenge.ui.listener.OnErrorListener;
 import br.com.vrbsm.challenge.util.controlfrags.ControlFrags;
 
-/**
- * Created by vmascare on 29/11/17.
- */
-
 public abstract class AbstractActivity extends AppCompatActivity implements OnDialogListener, OnErrorListener{
 
     private android.app.ProgressDialog mProgressDialog;

@@ -6,11 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
-/**
- * Created by vmascare on 29/11/17.
- */
-
 public abstract class AbstractFragment extends Fragment {
 
     protected void hideKeyboard(View view){
