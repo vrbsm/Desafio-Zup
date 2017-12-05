@@ -1,14 +1,11 @@
 package br.com.vrbsm.challenge.ui.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import java.util.List;
 
@@ -64,14 +61,9 @@ public class MovieListAdapter extends BaseAdapter {
                 GlideApp.with(view.getContext()).load(mList.get(i).getUrlImage())
                         .error(R.drawable.place_holder)
                         .placeholder(R.drawable.place_holder)
-                        .into(new SimpleTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                                holder.title.setCompoundDrawablesWithIntrinsicBounds(resource, null, null, null);
-                            }
-                        });
+                        .into(holder.image);
             } else {
-                holder.title.setCompoundDrawablesWithIntrinsicBounds(view.getContext().getResources().getDrawable(R.drawable.place_holder), null, null, null);
+                holder.image.setBackgroundResource(R.drawable.place_holder);
             }
 
         return view;
@@ -80,6 +72,8 @@ public class MovieListAdapter extends BaseAdapter {
     public class ViewHolder {
         @BindView(R.id.tx_name_movie_item)
         TextView title;
+        @BindView(R.id.img_movie_item)
+        ImageView image;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
