@@ -191,4 +191,8 @@ public class Movie extends AbstractModel {
         this.urlImage = urlImage;
     }
 
+    @Override
+    public String toString() {
+        return title + " ( "+year+" ) ";
+    }
 }

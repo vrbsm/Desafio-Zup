@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -79,8 +80,8 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
 
     }
     private void callListView(List<Movie> list, BaseAdapter baseAdapter, ListView listView){
-        baseAdapter = new MovieListAdapter(list);
-        listView.setAdapter(baseAdapter);
+        ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, list);
+        listView.setAdapter(adapter);
     }
 
     private List<Movie> mockList() {

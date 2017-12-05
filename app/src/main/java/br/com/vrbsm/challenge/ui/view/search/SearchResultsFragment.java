@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,10 @@ import br.com.vrbsm.challenge.ui.view.description.DescriptionActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
+
+/**
+ * Created by vmascare on 04/12/17.
+ */
 
 public class SearchResultsFragment extends AbstractFragment implements OnSearchResultsView, SearchView.OnQueryTextListener {
     @BindView(R.id.movie_list_search)
