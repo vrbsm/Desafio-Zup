@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Search {
+public class Search extends AbstractModel{
 
     @SerializedName("Search")
     private List<Movie> search;

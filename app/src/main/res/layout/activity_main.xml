@@ -6,10 +6,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_main"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:title="@string/app_name"
-        android:background="@color/colorPrimary"></android.support.v7.widget.Toolbar>
+        style="@style/ToobarStyle"
+        android:title="@string/app_name">
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/fr_container"

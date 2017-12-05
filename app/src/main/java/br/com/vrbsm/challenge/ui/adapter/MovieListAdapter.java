@@ -1,21 +1,22 @@
 package br.com.vrbsm.challenge.ui.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+
 import java.util.List;
 
 import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.model.Movie;
+import br.com.vrbsm.challenge.util.glide.GlideApp;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-/**
- * Created by vmascare on 30/11/17.
- */
 
 public class MovieListAdapter extends BaseAdapter {
 
@@ -42,26 +43,46 @@ public class MovieListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
-        if(view == null){
+        final ViewHolder holder;
+        if (view == null) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_movie_list, viewGroup, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
 
-        }else{
-            holder = (ViewHolder)view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
 
-        holder.title.setText(mList.get(i).getTitle());
+
+        if (mList.get(i).getYear() != null)
+            holder.title.setText(mList.get(i).getTitle() + " ( " + mList.get(i).getYear() + " ) ");
+        else
+            holder.title.setText(mList.get(i).getTitle());
+
+        if (mList.get(i).getUrlImage() != null)
+            if (!mList.get(i).getUrlImage().equals("N/A")) {
+                GlideApp.with(view.getContext()).load(mList.get(i).getUrlImage())
+                        .error(R.drawable.place_holder)
+                        .placeholder(R.drawable.place_holder)
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                                holder.title.setCompoundDrawablesWithIntrinsicBounds(resource, null, null, null);
+                            }
+                        });
+            } else {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(view.getContext().getResources().getDrawable(R.drawable.place_holder), null, null, null);
+            }
 
         return view;
     }
 
-   public class ViewHolder{
-       @BindView(R.id.tx_name_movie_item) TextView title;
+    public class ViewHolder {
+        @BindView(R.id.tx_name_movie_item)
+        TextView title;
 
-       public ViewHolder(View view) {
-           ButterKnife.bind(this,view);
-       }
-   }
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 }

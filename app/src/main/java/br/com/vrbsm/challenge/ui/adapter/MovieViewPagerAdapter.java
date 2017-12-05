@@ -16,9 +16,6 @@ import br.com.vrbsm.challenge.model.Movie;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by vmascare on 01/12/17.
- */
 
 public class MovieViewPagerAdapter extends PagerAdapter {
 

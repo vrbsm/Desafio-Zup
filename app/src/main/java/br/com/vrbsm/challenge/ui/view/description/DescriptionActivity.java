@@ -18,8 +18,9 @@ public class DescriptionActivity extends AbstractActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.description_activity);
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.my_films);
 

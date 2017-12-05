@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/search_movie"
+        android:textSize="30dp"
+        android:visibility="gone"
+        android:textColor="@color/accent"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+    <ListView
+        android:id="@+id/movie_list_search"
+        android:layout_width="match_parent"
+        android:dividerHeight="2dp"
+        android:layout_height="match_parent"></ListView>
+
+</LinearLayout>

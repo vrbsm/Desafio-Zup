@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import br.com.vrbsm.challenge.ui.listener.OnDialogListener;
 import br.com.vrbsm.challenge.ui.listener.OnErrorListener;
@@ -258,7 +259,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements OnDi
                 Log.d(getClass().getCanonicalName(), "code: 401");
                 break;
             case 404:
-                Log.d(getClass().getCanonicalName(), "code: 404");
+                Toast.makeText(this,"Filme não encontrado.",Toast.LENGTH_SHORT).show();
 
                 break;
             default:
