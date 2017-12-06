@@ -3,8 +3,10 @@ package br.com.vrbsm.challenge.model;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
+import java.io.Serializable;
 
-public class Rating extends SugarRecord<Rating> {
+
+public class Rating {
 
     @SerializedName("Source")
     private String source;

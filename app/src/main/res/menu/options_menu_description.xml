@@ -3,8 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_delete_forever"
+        android:title="deletar"
+        app:showAsAction="collapseActionView|ifRoom" />
+    <item
         android:id="@+id/save"
         android:icon="@drawable/ic_content_save"
         android:title="Salvar"
         app:showAsAction="collapseActionView|ifRoom" />
+
 </menu>

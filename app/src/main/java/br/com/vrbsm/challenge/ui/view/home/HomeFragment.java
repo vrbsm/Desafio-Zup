@@ -1,50 +1,44 @@
 package br.com.vrbsm.challenge.ui.view.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import br.com.vrbsm.challenge.BuildConfig;
 import br.com.vrbsm.challenge.R;
-import br.com.vrbsm.challenge.api.MovieApi;
 import br.com.vrbsm.challenge.model.Movie;
-import br.com.vrbsm.challenge.model.Search;
-import br.com.vrbsm.challenge.rest.RestGenerator;
-import br.com.vrbsm.challenge.ui.adapter.MovieListAdapter;
 import br.com.vrbsm.challenge.ui.adapter.MovieViewPagerAdapter;
-import br.com.vrbsm.challenge.ui.view.AbstractActivity;
 import br.com.vrbsm.challenge.ui.view.AbstractFragment;
 import br.com.vrbsm.challenge.ui.view.description.DescriptionActivity;
-import br.com.vrbsm.challenge.util.controlfrags.ControlFrags;
+import br.com.vrbsm.challenge.ui.view.search.SearchResultsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnItemClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends AbstractFragment implements MovieViewPagerAdapter.OnPageSelectedListener {
 
-    @BindView(R.id.movie_list_main) ListView listView;
-    @BindView(R.id.movie_view_pager_main) ViewPager mMoviesViewPager;
+    @BindView(R.id.movie_list_main)
+    ListView listView;
+    @BindView(R.id.movie_view_pager_main)
+    ViewPager mMoviesViewPager;
     private List<Movie> mMovieList;
     private BaseAdapter mAdapter;
-    private PagerAdapter mAdapterViewPager;
+    private MovieViewPagerAdapter mAdapterViewPager;
+    public static final String MOVIE_ARGS = "MOVIE";
+    public static final int HOME_REQUEST_CODE = 128;
+
 
     @Nullable
     @Override
@@ -52,51 +46,73 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        mMovieList = mockList();
-        callListView(mMovieList, mAdapter, listView);
-        callViewPager(mMovieList, mAdapterViewPager , mMoviesViewPager);
-
+        mMovieList = getMovies();
+        callListView(mMovieList, listView);
+        callViewPager(mMovieList, mAdapterViewPager, mMoviesViewPager);
+        setHasOptionsMenu(true);
 
         return view;
     }
-    private void goDescription(){
+
+
+    private void goDescription(Movie movie) {
         Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-        startActivity(intent);
+        intent.putExtra(MOVIE_ARGS, movie.getImdbid());
+        startActivityForResult(intent,HOME_REQUEST_CODE);
     }
 
     @OnItemClick(R.id.movie_list_main)
-    void onItemSelectedList(int position){
-        goDescription();
+    void onItemSelectedList(int position) {
+        goDescription(mMovieList.get(position));
     }
 
 
-
-    private void callViewPager(List<Movie> list, PagerAdapter baseAdapter, ViewPager viewPager){
-        baseAdapter = new MovieViewPagerAdapter(getContext(), list, this);
+    private void callViewPager(List<Movie> list, MovieViewPagerAdapter adapter, ViewPager viewPager) {
+        adapter = new MovieViewPagerAdapter(getContext(), list, this);
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(100,0,100,0);
+        viewPager.setPadding(100, 0, 100, 0);
         viewPager.setPageMargin(30);
-        viewPager.setAdapter(baseAdapter);
+        viewPager.setAdapter(adapter);
 
     }
-    private void callListView(List<Movie> list, BaseAdapter baseAdapter, ListView listView){
-        ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, list);
+
+    private void callListView(List<Movie> list, ListView listView) {
+        ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, list);
         listView.setAdapter(adapter);
     }
 
-    private List<Movie> mockList() {
-        List<Movie> list = new ArrayList<Movie>();
-        Movie movie = new Movie();
-        movie.setTitle("Victor Mascarenhas");
-        movie.setUrlImage("http://victor.com.br");
-        list.add(movie);
-        list.add(movie);
-        list.add(movie);
+    private List<Movie> getMovies() {
+        List<Movie> list = Movie.listAll(Movie.class);
         return list;
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == HOME_REQUEST_CODE) {
+            mMovieList = getMovies();
+            callListView(mMovieList, listView);
+            callViewPager(mMovieList, mAdapterViewPager, mMoviesViewPager);
+        }
+    }
+    private void goSearch(){
+        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+        startActivityForResult(intent, HOME_REQUEST_CODE);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.search:
+                goSearch();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onPageSelected(Movie movie) {
-            goDescription();
+        goDescription(movie);
     }
 }

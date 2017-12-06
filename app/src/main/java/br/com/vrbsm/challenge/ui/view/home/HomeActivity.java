@@ -38,22 +38,6 @@ public class HomeActivity extends AbstractActivity {
     }
 
 
-    private void goSearch(){
-        Intent intent = new Intent(this, SearchResultsActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.search:
-                goSearch();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -61,6 +45,7 @@ public class HomeActivity extends AbstractActivity {
 
         return true;
     }
+
 
 
     @Override
@@ -71,4 +56,10 @@ public class HomeActivity extends AbstractActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }

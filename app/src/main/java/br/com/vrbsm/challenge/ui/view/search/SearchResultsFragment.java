@@ -78,7 +78,7 @@ public class SearchResultsFragment extends AbstractFragment implements SearchRes
     @OnItemClick(R.id.movie_list_search)
     public void onItemClickListener(int position) {
         if (mAdapter != null)
-            goDescription(((Movie) mAdapter.getItem(position)).getId());
+            goDescription(((Movie) mAdapter.getItem(position)).getImdbid());
     }
 
     @Override

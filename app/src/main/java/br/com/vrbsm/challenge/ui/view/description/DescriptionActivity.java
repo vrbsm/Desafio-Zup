@@ -29,11 +29,5 @@ public class DescriptionActivity extends AbstractActivity{
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu_description, menu);
 
-        return true;
-    }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.model.Movie;
+import br.com.vrbsm.challenge.util.glide.GlideApp;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -48,10 +49,25 @@ public class MovieViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         View view = mLayoutInflater.inflate(R.layout.item_movie_view_pager, container, false);
         onBind(view);
         mTextView.setText(mMovie.get(position).getTitle());
+
+        if (!mMovie.get(position).getUrlImage().equals("N/A")) {
+            GlideApp.with(view.getContext()).load(mMovie.get(position).getUrlImage())
+                    .error(R.drawable.place_holder)
+                    .placeholder(R.drawable.place_holder)
+                    .into(mImageView);
+        } else {
+            mImageView.setBackgroundResource(R.drawable.place_holder);
+        }
+
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

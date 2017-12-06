@@ -1,11 +1,11 @@
 package br.com.vrbsm.challenge.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.orm.SugarRecord;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Search extends SugarRecord<Search> {
+public class Search {
 
     @SerializedName("imdbID")
     private String imdbID;

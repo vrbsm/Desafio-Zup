@@ -2,13 +2,15 @@ package br.com.vrbsm.challenge.model;
 
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Movie extends SugarRecord<Movie> {
 
     @SerializedName("imdbID")
-    private String imdbID;
+    private String imdbid;
 
     @SerializedName("Response")
     private String response;
@@ -57,15 +59,25 @@ public class Movie extends SugarRecord<Movie> {
     @SerializedName("Website")
     private String website;
 
+    @Ignore
     @SerializedName("Ratings")
     private List<Rating> ratings;
 
-    public String getImdbID() {
-        return imdbID;
+    private String rating;
+
+    @Override
+    public void save() {
+        if (ratings != null)
+            this.rating = getRatings();
+        super.save();
     }
 
-    public void setImdbID(String imdbID) {
-        this.imdbID = imdbID;
+    public String getImdbid() {
+        return imdbid;
+    }
+
+    public void setImdbid(String imdbid) {
+        this.imdbid = imdbid;
     }
 
     public String getResponse() {
@@ -188,15 +200,31 @@ public class Movie extends SugarRecord<Movie> {
         this.website = website;
     }
 
-    public String getRatings() {
+    private String getRatings() {
         String rating = new String();
         for (Rating r : ratings)
             rating += r.getSource() + ": " + r.getValue() + "  ";
         return rating;
     }
 
+
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getRating() {
+        if (rating != null)
+            return rating;
+        else {
+            if (ratings != null)
+                return getRatings();
+            else
+                return "";
+        }
     }
 
     public String getTitle() {

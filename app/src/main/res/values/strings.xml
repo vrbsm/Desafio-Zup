@@ -11,4 +11,6 @@
     <string name="actors">Atores: \n</string>
     <string name="awards">Premios: \n</string>
     <string name="language">Idioma: \n</string>
+    <string name="movie_added">Filme adicionado com sucesso</string>
+    <string name="movie_deleted">Filme deletado com sucesso</string>
 </resources>
