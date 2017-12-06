@@ -1,35 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-    <ScrollView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-        <LinearLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="250dp"
+            android:fitsSystemWindows="true"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/img_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                style="@style/Moviedescription"
-                android:src="@mipmap/ic_launcher" />
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                android:src="@drawable/place_holder" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:weightSum="1">
 
             <TextView
-                android:id="@+id/tx_description"
-                android:layout_width="match_parent"
-                style="@style/Moviedescription"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:id="@+id/type"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="{{description}}" />
+                android:text="{{type}}" />
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+            <TextView
+                android:id="@+id/year"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type"
+                android:text="{{year}}" />
+
+            <TextView
+                android:id="@+id/runtime"
+                style="@style/MovieTextLeftDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type"
+                android:layout_toRightOf="@id/year"
+                android:text="{{runtime}}" />
+
+            <TextView
+                android:id="@+id/country"
+                style="@style/MovieTextLeftDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type"
+                android:layout_toRightOf="@id/runtime"
+                android:text="{{country}}" />
+
+            <TextView
+                android:id="@+id/genre"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/year"
+                android:text="{{genre}}" />
+
+            <TextView
+                android:id="@+id/director"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genre"
+                android:text="{{director}}" />
+
+            <TextView
+                android:id="@+id/writer"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/director"
+                android:text="{{writer}}" />
+
+            <TextView
+                android:id="@+id/actors"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/writer"
+                android:text="{{actors}}" />
+
+            <TextView
+                android:id="@+id/language"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/actors"
+                android:text="{{language}}" />
+
+            <TextView
+                android:id="@+id/awards"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/language"
+                android:text="{{Awards}}" />
+
+            <TextView
+                android:id="@+id/ratings"
+                style="@style/MovieTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/awards"
+                android:text="{{Ratings}}" />
+
+            <TextView
+                android:id="@+id/plot"
+                style="@style/MovieTextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ratings"
+                android:text="{{description}}" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
+

@@ -3,4 +3,12 @@
     <string name="my_films">Meus filmes</string>
     <string name="search_hint">Pesquisar</string>
     <string name="search_movie">Pesquise um filme</string>
+    <string name="movie_not_found">Filme não encontrado. Tente novamente em alguns minutos</string>
+    <string name="plot">Resumo: \n</string>
+    <string name="director">Diretor: \n</string>
+    <string name="genre">Gênero: \n</string>
+    <string name="write">Escritor: \n</string>
+    <string name="actors">Atores: \n</string>
+    <string name="awards">Premios: \n</string>
+    <string name="language">Idioma: \n</string>
 </resources>

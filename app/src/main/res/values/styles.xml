@@ -9,10 +9,12 @@
         <item name="colorControlNormal">@color/colorWhite</item>
     </style>
 
-    <style name="Moviedescription">
-        <item name="android:layout_marginTop">10dp</item>
+    <style name="MovieTextDescription">
+        <item name="android:layout_marginTop">5dp</item>
     </style>
-
+    <style name="MovieTextLeftDescription" parent="MovieTextDescription">
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
     <style name="ToobarStyle">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:layout_height">?attr/actionBarSize</item>

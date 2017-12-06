@@ -3,6 +3,7 @@ package br.com.vrbsm.challenge.ui.view.search;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.ui.view.AbstractActivity;
@@ -24,6 +25,7 @@ public class SearchResultsActivity extends AbstractActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Pesquisar");
+
 
         replaceFragment(ControlFrags.SEARCH_FRAGMENT, CONTAINER, false, null);
 

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,9 +22,6 @@ import java.util.List;
 
 import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.model.Movie;
-import br.com.vrbsm.challenge.presenter.business.SearchResultsPresenterImpl;
-import br.com.vrbsm.challenge.presenter.observable.presenter.SearchResultsPresenter;
-import br.com.vrbsm.challenge.presenter.observable.view.OnSearchResultsView;
 import br.com.vrbsm.challenge.ui.adapter.MovieListAdapter;
 import br.com.vrbsm.challenge.ui.view.AbstractActivity;
 import br.com.vrbsm.challenge.ui.view.AbstractFragment;
@@ -37,13 +34,13 @@ import butterknife.OnItemClick;
  * Created by vmascare on 04/12/17.
  */
 
-public class SearchResultsFragment extends AbstractFragment implements OnSearchResultsView, SearchView.OnQueryTextListener {
+public class SearchResultsFragment extends AbstractFragment implements SearchResultsContract.View, SearchView.OnQueryTextListener {
     @BindView(R.id.movie_list_search)
     ListView listView;
     @BindView(R.id.empty_list)
     TextView emptyView;
     public static final String SEARCH_EXTRA = "SEARCH_EXTRA";
-    private SearchResultsPresenter mPresenter;
+    private SearchResultsContract.Presenter mPresenter;
     private MovieListAdapter mAdapter;
 
     @Nullable
@@ -57,12 +54,6 @@ public class SearchResultsFragment extends AbstractFragment implements OnSearchR
         return view;
     }
 
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            onSearchMovie(query);
-        }
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -103,7 +94,8 @@ public class SearchResultsFragment extends AbstractFragment implements OnSearchR
 
     @Override
     public void moviesError() {
-        Toast.makeText(getContext(), "Filme não encontrado", Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), R.string.movie_not_found, Snackbar.LENGTH_LONG).show();
+
         mAdapter = new MovieListAdapter(new ArrayList<Movie>());
         listView.setAdapter(mAdapter);
     }
@@ -112,6 +104,7 @@ public class SearchResultsFragment extends AbstractFragment implements OnSearchR
     @Override
     public boolean onQueryTextSubmit(String query) {
         onSearchMovie(query);
+        hideKeyboard(getView());
         return true;
     }
 

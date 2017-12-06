@@ -167,8 +167,11 @@ public class Movie extends AbstractModel {
         this.website = website;
     }
 
-    public List<Rating> getRatings() {
-        return ratings;
+    public String getRatings() {
+        String rating = new String();
+        for(Rating r : ratings)
+            rating += r.getSource() + ": "+ r.getValue() + "  ";
+        return rating;
     }
 
     public void setRatings(List<Rating> ratings) {

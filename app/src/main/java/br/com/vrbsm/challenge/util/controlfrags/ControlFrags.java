@@ -1,6 +1,5 @@
 package br.com.vrbsm.challenge.util.controlfrags;
 
-import br.com.vrbsm.challenge.presenter.observable.presenter.SearchResultsPresenter;
 import br.com.vrbsm.challenge.ui.view.AbstractFragment;
 import br.com.vrbsm.challenge.ui.view.description.DescriptionFragment;
 import br.com.vrbsm.challenge.ui.view.home.HomeFragment;
