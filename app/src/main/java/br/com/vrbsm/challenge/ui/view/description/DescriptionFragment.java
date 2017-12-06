@@ -58,6 +58,8 @@ public class DescriptionFragment extends AbstractFragment implements Description
     private String mIdImdb;
     private DescriptionContract.Presenter mPresenter;
 
+    private Movie mMovie;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,8 @@ public class DescriptionFragment extends AbstractFragment implements Description
         switch (item.getItemId()) {
             case R.id.save:
                 Log.d(getClass().getCanonicalName(), "Save@");
+                if(mMovie != null)
+                    mMovie.save();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -96,6 +100,7 @@ public class DescriptionFragment extends AbstractFragment implements Description
 
     @Override
     public void descriptionMovie(Movie movie) {
+        mMovie = movie;
         collapsingToolbarLayout.setTitle(movie.getTitle());
         txDescription.setText(getString(R.string.plot) + movie.getPlot());
         txDirector.setText(getString(R.string.director) + movie.getDirector());

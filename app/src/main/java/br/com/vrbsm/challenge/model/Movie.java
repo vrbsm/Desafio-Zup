@@ -1,11 +1,17 @@
 package br.com.vrbsm.challenge.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
 import java.util.List;
 
-public class Movie extends AbstractModel {
+public class Movie extends SugarRecord<Movie> {
 
+    @SerializedName("imdbID")
+    private String imdbID;
+
+    @SerializedName("Response")
+    private String response;
 
     @SerializedName("Title")
     private String title;
@@ -54,6 +60,21 @@ public class Movie extends AbstractModel {
     @SerializedName("Ratings")
     private List<Rating> ratings;
 
+    public String getImdbID() {
+        return imdbID;
+    }
+
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
 
     public String getYear() {
         return year;
@@ -169,8 +190,8 @@ public class Movie extends AbstractModel {
 
     public String getRatings() {
         String rating = new String();
-        for(Rating r : ratings)
-            rating += r.getSource() + ": "+ r.getValue() + "  ";
+        for (Rating r : ratings)
+            rating += r.getSource() + ": " + r.getValue() + "  ";
         return rating;
     }
 
@@ -196,6 +217,6 @@ public class Movie extends AbstractModel {
 
     @Override
     public String toString() {
-        return title + " ( "+year+" ) ";
+        return title + " ( " + year + " ) ";
     }
 }
