@@ -46,7 +46,7 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         ButterKnife.bind(this, view);
 
         mMovieList = getMovies();
-        callViewPager(mMovieList, mAdapterViewPager, mMoviesViewPager);
+        callViewPager(mMovieList);
         callListView(mMovieList);
         setHasOptionsMenu(true);
 
@@ -66,13 +66,13 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
     }
 
 
-    private void callViewPager(List<Movie> list, MovieViewPagerAdapter adapter, ViewPager viewPager) {
-        adapter = new MovieViewPagerAdapter(getContext(), list, this);
-        viewPager.setClipToPadding(false);
-        viewPager.setPadding(100, 0, 100, 0);
-        viewPager.setPageMargin(30);
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+    private void callViewPager(List<Movie> list) {
+        mAdapterViewPager = new MovieViewPagerAdapter(getContext(), list, this);
+        mMoviesViewPager.setClipToPadding(false);
+        mMoviesViewPager.setPadding(100, 0, 100, 0);
+        mMoviesViewPager.setPageMargin(30);
+        mMoviesViewPager.setAdapter(mAdapterViewPager);
+        mMoviesViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -82,6 +82,7 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
             public void onPageSelected(int position) {
                 mAdapter.setPosition(position);
                 mAdapter.notifyDataSetChanged();
+                listView.setSelection(position);
 
             }
 
@@ -109,7 +110,7 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         if (requestCode == HOME_REQUEST_CODE) {
             mMovieList = getMovies();
             callListView(mMovieList);
-            callViewPager(mMovieList, mAdapterViewPager, mMoviesViewPager);
+            callViewPager(mMovieList);
         }
     }
 

@@ -13,8 +13,20 @@ public class Search {
     @SerializedName("Response")
     private String response;
 
+    @SerializedName("Error")
+    private String error;
+
     @SerializedName("Search")
     private List<Movie> search;
+
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public String getImdbID() {
         return imdbID;

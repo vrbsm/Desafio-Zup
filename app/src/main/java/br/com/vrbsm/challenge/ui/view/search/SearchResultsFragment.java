@@ -1,8 +1,8 @@
 package br.com.vrbsm.challenge.ui.view.search;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -10,22 +10,19 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.model.Movie;
-import br.com.vrbsm.challenge.ui.adapter.MovieListAdapter;
+import br.com.vrbsm.challenge.ui.adapter.MovieListSearchResultAdapter;
 import br.com.vrbsm.challenge.ui.view.AbstractActivity;
 import br.com.vrbsm.challenge.ui.view.AbstractFragment;
-import br.com.vrbsm.challenge.ui.view.description.DescriptionActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
@@ -41,7 +38,7 @@ public class SearchResultsFragment extends AbstractFragment implements SearchRes
     TextView emptyView;
     public static final String SEARCH_EXTRA = "SEARCH_EXTRA";
     private SearchResultsContract.Presenter mPresenter;
-    private MovieListAdapter mAdapter;
+    private MovieListSearchResultAdapter mAdapter;
 
     @Nullable
     @Override
@@ -57,28 +54,21 @@ public class SearchResultsFragment extends AbstractFragment implements SearchRes
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
         inflater.inflate(R.menu.options_menu_search, menu);
-        MenuItem item = menu.findItem(R.id.search);
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setIconifiedByDefault(true);
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(this);
+        searchView.onActionViewExpanded();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void goDescription(String idImdbMovie) {
-        Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-        intent.putExtra(SEARCH_EXTRA, idImdbMovie);
-        startActivity(intent);
-    }
 
     @OnItemClick(R.id.movie_list_search)
     public void onItemClickListener(int position) {
         if (mAdapter != null)
-            goDescription(((Movie) mAdapter.getItem(position)).getImdbid());
+            goToDescriptionActivity(((Movie) mAdapter.getItem(position)).getImdbid(), getActivity());
     }
 
     @Override
@@ -88,16 +78,20 @@ public class SearchResultsFragment extends AbstractFragment implements SearchRes
 
     @Override
     public void moviesResult(List<Movie> movieList) {
-        mAdapter = new MovieListAdapter(movieList);
+        mAdapter = new MovieListSearchResultAdapter(movieList);
         listView.setAdapter(mAdapter);
     }
 
     @Override
-    public void moviesError() {
-        Snackbar.make(getView(), R.string.movie_not_found, Snackbar.LENGTH_LONG).show();
-
-        mAdapter = new MovieListAdapter(new ArrayList<Movie>());
+    public void moviesError(String error) {
+        Snackbar.make(getView(), error, Snackbar.LENGTH_LONG).show();
+        mAdapter = new MovieListSearchResultAdapter(new ArrayList<Movie>());
         listView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void goToDescriptionActivity(String idImdbMovie, Activity activity) {
+        mPresenter.goToDescriptionActivity(idImdbMovie,activity);
     }
 
 

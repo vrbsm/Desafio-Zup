@@ -15,11 +15,11 @@ import br.com.vrbsm.challenge.util.glide.GlideApp;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieListAdapter extends BaseAdapter {
+public class MovieListSearchResultAdapter extends BaseAdapter {
 
     private List<Movie> mList;
 
-    public MovieListAdapter(List<Movie> mList) {
+    public MovieListSearchResultAdapter(List<Movie> mList) {
         this.mList = mList;
     }
 

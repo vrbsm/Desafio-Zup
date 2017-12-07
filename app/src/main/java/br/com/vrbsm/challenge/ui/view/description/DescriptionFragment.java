@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,10 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import java.util.List;
+import android.widget.Toast;
 
 import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.model.Movie;
@@ -25,7 +21,6 @@ import br.com.vrbsm.challenge.ui.view.AbstractActivity;
 import br.com.vrbsm.challenge.ui.view.AbstractFragment;
 import br.com.vrbsm.challenge.ui.view.home.HomeFragment;
 import br.com.vrbsm.challenge.ui.view.search.SearchResultsFragment;
-import br.com.vrbsm.challenge.util.glide.GlideApp;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -81,13 +76,12 @@ public class DescriptionFragment extends AbstractFragment implements Description
         super.onPrepareOptionsMenu(menu);
         MenuItem delete = menu.findItem(R.id.delete);
         MenuItem save = menu.findItem(R.id.save);
-        if(mMovie != null){
-            List<Movie> movie = Movie.find(Movie.class, "imdbid = ?", new String[]{mMovie.getImdbid()}, null, null, "1");
-            if (!movie.isEmpty()) {
+        if (mMovie != null) {
+            Movie m = mPresenter.movieSearchDB(mMovie.getImdbid());
+            if (m != null) {
                 delete.setVisible(true);
                 save.setVisible(false);
-            }
-            else{
+            } else {
                 delete.setVisible(false);
                 save.setVisible(true);
             }
@@ -95,21 +89,21 @@ public class DescriptionFragment extends AbstractFragment implements Description
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
                 if (mMovie != null) {
-                    mMovie.save();
-                    Snackbar.make(getView(), R.string.movie_added, Snackbar.LENGTH_LONG).show();
+                    mPresenter.movieSaveDB(mMovie);
+                    Toast.makeText(getContext(), R.string.movie_added, Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();
+
                 }
                 break;
             case R.id.delete:
-                if(mMovie != null){
-                    Movie.find(Movie.class, "imdbid = ?", new String[]{mMovie.getImdbid()}, null, null, "1").get(0).delete();
-                    Snackbar.make(getView(), R.string.movie_deleted, Snackbar.LENGTH_LONG).show();
+                if (mMovie != null) {
+                    mPresenter.movieDeleteDB(mMovie.getImdbid());
+                    Toast.makeText(getContext(), R.string.movie_deleted, Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();
                 }
                 break;
@@ -155,9 +149,8 @@ public class DescriptionFragment extends AbstractFragment implements Description
 
     private Movie getMovie(Bundle bundle) {
         mIdImdb = (String) bundle.getSerializable(HomeFragment.MOVIE_ARGS);
-        List<Movie> m = Movie.find(Movie.class, "imdbid = ?", new String[]{mIdImdb}, null, null, "1");
 
-        return m.get(0);
+        return mPresenter.movieSearchDB(mIdImdb);
     }
 
     @Override
@@ -178,24 +171,13 @@ public class DescriptionFragment extends AbstractFragment implements Description
         txRatings.setText(movie.getRating());
         txCountry.setText(movie.getCountry());
         ((AbstractActivity) getActivity()).getSupportActionBar().setTitle(movie.getTitle());
-        if (movie.getUrlImage() != null)
-            if (!movie.getUrlImage().equals("N/A")) {
-                GlideApp.with(getContext())
-                        .load(movie.getUrlImage())
-                        .placeholder(R.drawable.place_holder)
-                        .error(R.drawable.place_holder)
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(imageDescription);
-            } else {
-                imageDescription.setBackgroundResource(R.drawable.place_holder);
-            }
+        mPresenter.loadImg(movie.getUrlImage(), imageDescription, getContext());
 
     }
 
     @Override
-    public void notFoundMovie() {
-        Snackbar.make(getView(), R.string.movie_not_found, Snackbar.LENGTH_LONG).show();
+    public void notFoundMovie(String error) {
+        Snackbar.make(getView(), error, Snackbar.LENGTH_LONG).show();
 
     }
 }

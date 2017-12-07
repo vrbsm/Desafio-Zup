@@ -57,7 +57,7 @@ public class MovieHomeListAdapter extends BaseAdapter {
         }
 
         if (positionColor == i)
-            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.colorPrimary));
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.primary_light));
         else
             view.setBackground(view.getContext().getResources().getDrawable(R.drawable.list_home));
 

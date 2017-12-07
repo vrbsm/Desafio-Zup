@@ -28,10 +28,10 @@ public class SearchResultsInteractorImpl implements SearchResultsContract.Intera
                     if(response.body().getResponse().equals("True")) {
                         callback.moviesResult(response.body().getSearch());
                     }else{
-                        callback.movieError();
+                        callback.movieError(response.body().getError());
                     }
                 } else {
-                    callback.movieError();
+                    callback.movieError("Houve um erro no servidor.");
 
                 }
             }
@@ -40,7 +40,7 @@ public class SearchResultsInteractorImpl implements SearchResultsContract.Intera
             public void onFailure(Call<Search> call, Throwable t) {
                 dialogListener.dismissDialog();
                 t.printStackTrace();
-                callback.movieError();
+                callback.movieError("Verifique sua internet e tente novamente em instantes");
             }
         });
     }

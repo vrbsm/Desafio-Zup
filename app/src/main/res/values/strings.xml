@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Challenge</string>
+    <string name="app_name">Filmes</string>
     <string name="my_films">Meus filmes</string>
     <string name="search_hint">Pesquisar</string>
     <string name="search_movie">Pesquise um filme</string>
