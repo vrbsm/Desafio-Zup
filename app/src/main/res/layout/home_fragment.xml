@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4">
+
         <android.support.v4.view.ViewPager
             android:id="@+id/movie_view_pager_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v4.view.ViewPager>
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
     </FrameLayout>
 
@@ -22,11 +22,22 @@
         android:layout_height="0dp"
         android:layout_weight="0.6">
 
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/filmstrip"
+            android:gravity="center"
+            android:text="Não há filmes. Procure seu filme :-) "
+            android:visibility="gone" />
+
         <ListView
             android:id="@+id/movie_list_main"
             android:layout_width="match_parent"
-            android:dividerHeight="2dp"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:dividerHeight="2dp"></ListView>
+
 
     </FrameLayout>
 

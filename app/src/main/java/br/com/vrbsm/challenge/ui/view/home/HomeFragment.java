@@ -1,24 +1,21 @@
 package br.com.vrbsm.challenge.ui.view.home;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
 import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.model.Movie;
+import br.com.vrbsm.challenge.ui.adapter.MovieHomeListAdapter;
 import br.com.vrbsm.challenge.ui.adapter.MovieViewPagerAdapter;
 import br.com.vrbsm.challenge.ui.view.AbstractFragment;
 import br.com.vrbsm.challenge.ui.view.description.DescriptionActivity;
@@ -33,8 +30,10 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
     ListView listView;
     @BindView(R.id.movie_view_pager_main)
     ViewPager mMoviesViewPager;
+    @BindView(R.id.empty_view)
+    TextView emptyView;
     private List<Movie> mMovieList;
-    private BaseAdapter mAdapter;
+    private MovieHomeListAdapter mAdapter;
     private MovieViewPagerAdapter mAdapterViewPager;
     public static final String MOVIE_ARGS = "MOVIE";
     public static final int HOME_REQUEST_CODE = 128;
@@ -47,8 +46,8 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         ButterKnife.bind(this, view);
 
         mMovieList = getMovies();
-        callListView(mMovieList, listView);
         callViewPager(mMovieList, mAdapterViewPager, mMoviesViewPager);
+        callListView(mMovieList);
         setHasOptionsMenu(true);
 
         return view;
@@ -58,7 +57,7 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
     private void goDescription(Movie movie) {
         Intent intent = new Intent(getActivity(), DescriptionActivity.class);
         intent.putExtra(MOVIE_ARGS, movie.getImdbid());
-        startActivityForResult(intent,HOME_REQUEST_CODE);
+        startActivityForResult(intent, HOME_REQUEST_CODE);
     }
 
     @OnItemClick(R.id.movie_list_main)
@@ -73,12 +72,32 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         viewPager.setPadding(100, 0, 100, 0);
         viewPager.setPageMargin(30);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mAdapter.setPosition(position);
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
-    private void callListView(List<Movie> list, ListView listView) {
-        ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, list);
-        listView.setAdapter(adapter);
+    private void callListView(List<Movie> list) {
+        mAdapter = new MovieHomeListAdapter(list);
+        listView.setAdapter(mAdapter);
+        listView.setEmptyView(emptyView);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
     private List<Movie> getMovies() {
@@ -88,13 +107,14 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == HOME_REQUEST_CODE) {
+        if (requestCode == HOME_REQUEST_CODE) {
             mMovieList = getMovies();
-            callListView(mMovieList, listView);
+            callListView(mMovieList);
             callViewPager(mMovieList, mAdapterViewPager, mMoviesViewPager);
         }
     }
-    private void goSearch(){
+
+    private void goSearch() {
         Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
         startActivityForResult(intent, HOME_REQUEST_CODE);
     }
@@ -102,7 +122,7 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.search:
                 goSearch();
                 break;

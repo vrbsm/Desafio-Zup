@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import br.com.vrbsm.challenge.R;
@@ -184,6 +186,7 @@ public class DescriptionFragment extends AbstractFragment implements Description
                         .placeholder(R.drawable.place_holder)
                         .error(R.drawable.place_holder)
                         .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imageDescription);
             } else {
                 imageDescription.setBackgroundResource(R.drawable.place_holder);

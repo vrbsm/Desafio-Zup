@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import br.com.vrbsm.challenge.R;
@@ -62,6 +64,7 @@ public class MovieViewPagerAdapter extends PagerAdapter {
         if (!mMovie.get(position).getUrlImage().equals("N/A")) {
             GlideApp.with(view.getContext()).load(mMovie.get(position).getUrlImage())
                     .error(R.drawable.place_holder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.place_holder)
                     .into(mImageView);
         } else {
