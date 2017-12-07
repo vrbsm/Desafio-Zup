@@ -108,8 +108,7 @@ public class DescriptionFragment extends AbstractFragment implements Description
                 break;
             case R.id.delete:
                 if(mMovie != null){
-//                    Movie.find(Movie.class, "imdbid = ?", new String[]{mMovie.getImdbid()}, null, null, "1").get(0).delete();
-                    mMovie.delete();
+                    Movie.find(Movie.class, "imdbid = ?", new String[]{mMovie.getImdbid()}, null, null, "1").get(0).delete();
                     Snackbar.make(getView(), R.string.movie_deleted, Snackbar.LENGTH_LONG).show();
                     getActivity().onBackPressed();
                 }

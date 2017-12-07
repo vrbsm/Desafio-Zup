@@ -97,7 +97,6 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         mAdapter = new MovieHomeListAdapter(list);
         listView.setAdapter(mAdapter);
         listView.setEmptyView(emptyView);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
     private List<Movie> getMovies() {
