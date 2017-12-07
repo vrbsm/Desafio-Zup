@@ -149,7 +149,6 @@ public class DescriptionFragment extends AbstractFragment implements Description
 
     private Movie getMovie(Bundle bundle) {
         mIdImdb = (String) bundle.getSerializable(HomeFragment.MOVIE_ARGS);
-
         return mPresenter.movieSearchDB(mIdImdb);
     }
 
@@ -178,6 +177,5 @@ public class DescriptionFragment extends AbstractFragment implements Description
     @Override
     public void notFoundMovie(String error) {
         Snackbar.make(getView(), error, Snackbar.LENGTH_LONG).show();
-
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +18,13 @@ import br.com.vrbsm.challenge.R;
 import br.com.vrbsm.challenge.model.Movie;
 import br.com.vrbsm.challenge.ui.adapter.MovieHomeListAdapter;
 import br.com.vrbsm.challenge.ui.adapter.MovieViewPagerAdapter;
+import br.com.vrbsm.challenge.ui.view.AbstractActivity;
 import br.com.vrbsm.challenge.ui.view.AbstractFragment;
-import br.com.vrbsm.challenge.ui.view.description.DescriptionActivity;
-import br.com.vrbsm.challenge.ui.view.search.SearchResultsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 
-public class HomeFragment extends AbstractFragment implements MovieViewPagerAdapter.OnPageSelectedListener {
+public class HomeFragment extends AbstractFragment implements MovieViewPagerAdapter.OnPageSelectedListener, HomeContract.View {
 
     @BindView(R.id.movie_list_main)
     ListView listView;
@@ -35,9 +35,16 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
     private List<Movie> mMovieList;
     private MovieHomeListAdapter mAdapter;
     private MovieViewPagerAdapter mAdapterViewPager;
+
+    private HomeContract.Presenter mPresenter;
     public static final String MOVIE_ARGS = "MOVIE";
     public static final int HOME_REQUEST_CODE = 128;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPresenter = new HomePresenterImpl();
+    }
 
     @Nullable
     @Override
@@ -53,11 +60,9 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         return view;
     }
 
-
-    private void goDescription(Movie movie) {
-        Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-        intent.putExtra(MOVIE_ARGS, movie.getImdbid());
-        startActivityForResult(intent, HOME_REQUEST_CODE);
+    @Override
+    public void goDescription(Movie movie) {
+        mPresenter.goDescription(this, MOVIE_ARGS, HOME_REQUEST_CODE, movie);
     }
 
     @OnItemClick(R.id.movie_list_main)
@@ -101,12 +106,14 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
     }
 
     private List<Movie> getMovies() {
-        List<Movie> list = Movie.listAll(Movie.class);
-        return list;
+
+        return mPresenter.movieSearchListDB();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(getClass().getCanonicalName(), String.valueOf(requestCode));
+
         if (requestCode == HOME_REQUEST_CODE) {
             mMovieList = getMovies();
             callListView(mMovieList);
@@ -114,9 +121,9 @@ public class HomeFragment extends AbstractFragment implements MovieViewPagerAdap
         }
     }
 
-    private void goSearch() {
-        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-        startActivityForResult(intent, HOME_REQUEST_CODE);
+    @Override
+    public void goSearch() {
+        mPresenter.goSearch(this, HOME_REQUEST_CODE);
     }
 
 
